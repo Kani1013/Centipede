@@ -5,9 +5,7 @@
 #include "mushrooms.h"
 #include "shots.h"
 #include "bullet.h"
-
-#define CENTIPEDE_SPEED 7.0f
-
+#include "settings.h"
 
 class CentipedeSegment
 {

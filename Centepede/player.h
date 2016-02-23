@@ -3,12 +3,7 @@
 #include <GL\glew.h>
 #include "renderer.h"
 #include "mushrooms.h"
-
-#define MOVEMENT_SPEED 10.0f
-#define PLAYER_WIDTH 0.83f
-#define PLAYER_HEIGHT 0.95f
-#define AREA 8.0f
-
+#include "settings.h"
 
 class Player
 {

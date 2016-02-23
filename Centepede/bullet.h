@@ -2,8 +2,7 @@
 
 #include <GL\glew.h>
 #include "mushrooms.h"
-
-#define MOVEMENTSPEED -20.0f
+#include "settings.h"
 
 class Bullet
 {

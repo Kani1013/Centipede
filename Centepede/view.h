@@ -10,12 +10,6 @@
 #include "display.h"
 #include "renderer.h"
 
-#define SCREEN_WIDTH GetSystemMetrics(SM_CXSCREEN)
-#define SCREEN_HEIGHT GetSystemMetrics(SM_CYSCREEN)
-#define VERTEX_SHADER "vertex.shader"
-#define FRAGMENT_SHADER "fragment.shader"
-#define SPRITE_SHEET "centipedeSprites.jpg"
-
 class View
 {
 public:

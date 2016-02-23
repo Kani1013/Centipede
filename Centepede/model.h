@@ -8,7 +8,6 @@
 #include "shots.h"
 #include "mushrooms.h"
 
-#define FIELDSIZE 31
 
 class Model
 {

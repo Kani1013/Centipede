@@ -11,7 +11,7 @@ Mushrooms::Mushrooms(GLuint fieldsize)
 		for (int row = 0; row < fieldsize; row++) {
 			if (row > 0 && row < fieldsize - 4)  //AREA
 			{
-				if (chance > 0 && (rand() % 100) < chance) { //10% that a field has a mushroom on it.
+				if (chance > 0 && (rand() % 100) < chance) {
 					mushrooms[col][row] = 4;
 				}
 			}
@@ -31,7 +31,10 @@ void Mushrooms::hitMushroom(GLuint* field)
 
 void Mushrooms::createMushroom(GLuint* field)
 {
-	mushrooms[field[0]][field[1]] = 4;
+	if (field[0] > 0 && field[0] < FIELDSIZE && field[1] > 1 && field[1] < FIELDSIZE)
+	{
+		mushrooms[field[0]][field[1]] = 4;
+	}
 }
 
 Mushrooms::~Mushrooms()

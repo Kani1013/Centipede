@@ -7,10 +7,6 @@
 #include "bullet.h"
 #include <list>
 
-#define COOLDOWN .2f
-#define SHOT_WIDTH .125f
-#define SHOT_HEIGHT .5f
-
 class Shots
 {
 public:

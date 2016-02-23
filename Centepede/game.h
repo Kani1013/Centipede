@@ -6,8 +6,6 @@
 #include "view.h"
 #include "controller.h"
 
-
-
 class Game
 {
 

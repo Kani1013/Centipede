@@ -6,9 +6,7 @@
 #include "mushrooms.h"
 #include "shots.h"
 #include "centipedesegment.h"
-
-#define CENTISEGMENT_WIDTH .875f
-#define CENTISEGMENT_HEIGHT 1.0f
+#include "settings.h"
 
 class Centipede
 {

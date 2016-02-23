@@ -5,10 +5,8 @@
 #include <GL\glew.h>
 #include <vector>
 #include "renderer.h"
+#include "settings.h"
 
-//needs to know area!!!!
-
-#define DENSITY 10		//Percentage of chance for mushroom to spawn in each field => 0 no mushrooms => 100 mushroom on every field (effects initial spawn area only)
 
 class Mushrooms
 {
