@@ -3,7 +3,7 @@
 Model::Model()
 {
 	mushrooms = new Mushrooms(FIELDSIZE);
-	player = new Player(FIELDSIZE, mushrooms);
+	player = new Player();
 	shots = new Shots(player, mushrooms);
 	centipede = new Centipede(mushrooms, shots);
 

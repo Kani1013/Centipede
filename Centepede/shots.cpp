@@ -18,7 +18,7 @@ GLuint Shots::update(GLfloat tpf)
 	iterator = bullets.begin();
 	while (iterator != bullets.end())
 	{
-		GLint state = (*iterator)->update(tpf);
+		GLint state = (*iterator)->move(tpf);
 		if (state != 0)
 		{
 			iterator = bullets.erase(iterator);
@@ -36,12 +36,12 @@ GLuint Shots::getBulletCount()
 	return bullets.size();
 }
 
-GLfloat* Shots::getPosition(GLuint index)
+/*GLfloat* Shots::getPosition(GLuint index)
 {
 	iterator = bullets.begin();
 	std::advance(iterator, index);
 	return (*iterator)->getPosition();
-}
+}*/
 
 void Shots::destroyBullet(GLuint index)
 {
@@ -52,12 +52,9 @@ void Shots::destroyBullet(GLuint index)
 
 void Shots::reDraw(Renderer* renderer)
 {
-	GLfloat* position;
-
 	for (iterator = bullets.begin(); iterator != bullets.end(); ++iterator)
 	{
-		position = (*iterator)->getPosition();
-		renderer->draw(position[0], position[1], position[0] + SHOT_WIDTH, position[1] + SHOT_HEIGHT, texX1, texY1, texX2, texY2);
+		renderer->draw((*iterator));
 	}
 }
 
@@ -65,7 +62,7 @@ void Shots::shoot()
 {
 	if (timeUntilNextShot <= 0.0f) {
 		timeUntilNextShot = COOLDOWN;
-		b = new Bullet(player->getPosition(), SHOT_WIDTH, mushrooms);
+		b = new Bullet(player->getCenter());
 		bullets.push_front(b);
 	}
 }

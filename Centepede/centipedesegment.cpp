@@ -310,7 +310,7 @@ void CentipedeSegment::changeDirection(Direction direction, GLfloat delta) {
 }
 
 GLboolean CentipedeSegment::updateShots()
-{
+{/*
 	GLuint index = shots->getBulletCount(), i = 0;
 	GLboolean hitMe = GL_FALSE;
 
@@ -318,7 +318,7 @@ GLboolean CentipedeSegment::updateShots()
 	{
 		GLfloat* bulletPosition = shots->getPosition(i);
 
-		if ((bulletPosition[0] + SHOT_WIDTH > xPos)
+		if ((bulletPosition[0] + BULLET_WIDTH > xPos)
 			&& (bulletPosition[0]				< xPos + width)
 			&& (bulletPosition[1]				> yPos)
 			&& (bulletPosition[1] < yPos + height)
@@ -332,7 +332,8 @@ GLboolean CentipedeSegment::updateShots()
 		}
 	}
 
-	return !hitMe;
+	return !hitMe;*/
+	return GL_FALSE;
 }
 
 void CentipedeSegment::updateTex()

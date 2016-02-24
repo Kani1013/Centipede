@@ -155,6 +155,7 @@
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="mushrooms.cpp" />
@@ -167,9 +168,11 @@
   <ItemGroup>
     <ClInclude Include="centipede.h" />
     <ClInclude Include="centipedesegment.h" />
+    <ClInclude Include="collisionHandler.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="gameObject.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="mushrooms.h" />
     <ClInclude Include="player.h" />

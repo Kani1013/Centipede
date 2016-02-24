@@ -1,27 +1,18 @@
 #pragma once
 
 #include <GL\glew.h>
+#include "gameObject.h"
 #include "mushrooms.h"
 #include "settings.h"
 
-class Bullet
+class Bullet: public GameObject
 {
 public:
-	Bullet(GLfloat* position, GLfloat width, Mushrooms* mushrooms);
+	Bullet(Vec spawn);
 	~Bullet();
 
 	//returns bullet state (0 moving, -1 reached end of screen, more to come... 
-	GLint update(GLfloat tpf);
-
-	GLfloat* getPosition();
-
+	GLint move(GLfloat tpf);
 private:
-	GLfloat* position;
-	GLuint* fieldPosition;
-	GLuint* fieldPosition2;
-
-	GLfloat width;
-
-	Mushrooms* mushrooms;
 };
 

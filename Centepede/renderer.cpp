@@ -13,6 +13,39 @@ GLuint Renderer::indices[] = {
 	1, 2, 3  // Second Triangle
 };
 
+
+void Renderer::draw(GameObject* gameObject)
+{
+	Rect position = gameObject->getPosition();
+	Rect texCoords = gameObject->getTexCoords();
+
+	//coordinates
+	vertices[0] = position.x1;
+	vertices[1] = position.y1;
+	vertices[4] = position.x2;
+	vertices[5] = position.y1;
+	vertices[8] = position.x2;
+	vertices[9] = position.y2;
+	vertices[12] = position.x1;
+	vertices[13] = position.y2;
+	//texture coordinates
+	vertices[2] = texCoords.x1;
+	vertices[3] = texCoords.y1;
+	vertices[6] = texCoords.x2;
+	vertices[7] = texCoords.y1;
+	vertices[10] = texCoords.x2;
+	vertices[11] = texCoords.y2;
+	vertices[14] = texCoords.x1;
+	vertices[15] = texCoords.y2;
+	//draw
+	glBindVertexArray(this->VAO);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
 void Renderer::draw(GLfloat posX1, GLfloat posY1, GLfloat posX2, GLfloat posY2, GLfloat texX1, GLfloat texY1, GLfloat texX2, GLfloat texY2)
 {
 	//coordinates

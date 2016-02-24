@@ -1,20 +1,18 @@
 #include "bullet.h"
 
-Bullet::Bullet(GLfloat* position, GLfloat width, Mushrooms* mushrooms)
+Bullet::Bullet(Vec spawn)
 {
-	Bullet::width = width;
-	Bullet::mushrooms = mushrooms;
-	//initPosition
-	Bullet::position = position;
-	Bullet::position[0] -= width / 2;
-	//left top corner of shot
-	fieldPosition = new GLuint[2];
-	fieldPosition[0] = (GLuint) position[0];
-	fieldPosition[1] = (GLuint) position[1];
-	//right top corner of bullet
-	fieldPosition2 = new GLuint[2];
-	fieldPosition2[0] = (GLuint) (position[0] + width);
-	fieldPosition2[1] = (GLuint) position[1];
+	Position.x1 = spawn.x - BULLET_WIDTH / 2;
+	Position.y1 = spawn.y;
+	Position.x2 = Position.x1 + BULLET_WIDTH;
+	Position.y2 = Position.y1 + BULLET_HEIGHT;
+
+	TexCoords.x1 = 11.0f;
+	TexCoords.y1 = 82.0f;
+	TexCoords.x2 = 12.0f;
+	TexCoords.y2 = 86.0f;
+
+	AABB = Position;
 }
 
 
@@ -22,21 +20,27 @@ Bullet::~Bullet()
 {
 }
 
-GLfloat* Bullet::getPosition() {
-	return position;
-}
-
-GLint Bullet::update(GLfloat tpf)
+GLint Bullet::move(GLfloat tpf)
 {
-	GLfloat movement = MOVEMENTSPEED * tpf;
+	GLfloat movement = BULLET_SPEED * tpf;
 	
-	position[1] += movement;
+	Position.y1 += movement;
+	Position.y2 = Position.y1 + BULLET_HEIGHT;
+
+	AABB = Position;
+	
 
 	//reached end of screen
-	if (position[1] < 0)
+	if (Position.y1 < 0)
 	{
 		return -1;
 	}
+
+	return 0;
+
+
+
+	/*
 	//is on new field (check for mushroom hit)
 	else if ((GLuint) position[1] != fieldPosition[1])
 	{
@@ -57,8 +61,6 @@ GLint Bullet::update(GLfloat tpf)
 		else { //left and right corner are in the same tile
 			return 0;
 		}
-	}
-	else {
-		return 0;
-	}
+	}*/
+
 }

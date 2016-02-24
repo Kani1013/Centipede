@@ -18,7 +18,7 @@ public:
 
 	void reDraw(Renderer* renderer);
 	GLuint getBulletCount();
-	GLfloat* getPosition(GLuint index);
+	//GLfloat* getPosition(GLuint index);
 	void destroyBullet(GLuint index);
 
 	void shoot();

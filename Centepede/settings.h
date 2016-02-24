@@ -4,7 +4,7 @@
 #define FIELDSIZE 31
 
 //Centipede
-#define CENTIPEDE_SPEED 7.0f
+#define CENTIPEDE_SPEED 8.0f
 #define CENTISEGMENT_WIDTH .875f
 #define CENTISEGMENT_HEIGHT 1.0f
 
@@ -15,13 +15,13 @@
 #define AREA 8.0f
 
 //Mushrooms
-#define DENSITY 10
+#define DENSITY 7 // 0 - 100 %
 
 //Bullets
-#define COOLDOWN .2f
-#define SHOT_WIDTH .125f
-#define SHOT_HEIGHT .5f
-#define MOVEMENTSPEED -20.0f
+#define COOLDOWN .5f
+#define BULLET_WIDTH .125f
+#define BULLET_HEIGHT .5f
+#define BULLET_SPEED -20.0f
 
 //Shader
 #define VERTEX_SHADER "vertex.shader"

@@ -1,22 +1,21 @@
 #include "player.h"
 
 void Player::initPosition() {
-	posX = fieldSize / 2;
-	posY = fieldSize - AREA / 2;
-	posX1 = posX - PLAYER_WIDTH / 2;
-	posY1 = posY - PLAYER_HEIGHT / 2;
-	posX2 = posX + PLAYER_WIDTH / 2;
-	posY2 = posY + PLAYER_HEIGHT / 2;
-	texX1 = 0.0f;
-	texY1 = 80.0f;
-	texX2 = 7.0f;
-	texY2 = 88.0f;
+	Position.x1 = (FIELDSIZE / 2) - (PLAYER_WIDTH / 2);
+	Position.y1 = (FIELDSIZE - (AREA / 2)) - (PLAYER_HEIGHT / 2);
+	Position.x2 = Position.x1 + PLAYER_WIDTH;
+	Position.y2 = Position.y1 + PLAYER_HEIGHT;
+
+	TexCoords.x1 = 0.0f;
+	TexCoords.y1 = 80.0f;
+	TexCoords.x2 = 7.0f;
+	TexCoords.y2 = 88.0f;
+
+	AABB = Position;
 };
 
-Player::Player(GLuint fieldSize, Mushrooms* mushrooms)
+Player::Player()
 {
-	this->fieldSize = (GLfloat) fieldSize;
-	this->mushrooms = mushrooms;
 	initPosition();
 }
 
@@ -25,34 +24,28 @@ Player::~Player()
 {
 }
 
-GLfloat* Player::getPosition()
-{
-	GLfloat* position = new GLfloat[2];
-	position[0] = posX;
-	position[1] = posY;
-	return position;
-}
-
-void Player::reDraw(Renderer* renderer)
-{
-	renderer->draw(posX1, posY1, posX2, posY2, texX1, texY1, texX2, texY2);
-}
-
 void Player::move(GLfloat x, GLfloat y)
 {
-	GLfloat movementX = collideX(x * MOVEMENT_SPEED);
-	GLfloat movementY = collideY(y * MOVEMENT_SPEED);
+	GLfloat movementX = x * MOVEMENT_SPEED;
+	GLfloat movementY = y * MOVEMENT_SPEED;
 
-	posX += movementX;
-	posY += movementY;
-	posX1 += movementX;
-	posY1 += movementY;
-	posX2 += movementX;
-	posY2 += movementY;
+	Position.x1 += movementX;
+	if (x < 0 && Position.x1 < 0) Position.x1 = 0;
+	else if (x > 0 && Position.x1 > FIELDSIZE - PLAYER_WIDTH) Position.x1 = FIELDSIZE - PLAYER_WIDTH;
+
+	Position.y1 += movementY;
+	if (y < 0 && Position.y1 < FIELDSIZE - AREA) Position.y1 = FIELDSIZE - AREA;
+	else if (y > 0 && Position.y1 > FIELDSIZE - PLAYER_HEIGHT) Position.y1 = FIELDSIZE - PLAYER_HEIGHT;
+
+	Position.x2 = Position.x1 + PLAYER_WIDTH;
+	Position.y2 = Position.y1 + PLAYER_HEIGHT;
+
+	AABB = Position;
 }
 
 GLfloat Player::collideX(GLfloat movement)
 {
+	/*
 	GLuint mushroom = 0;
 	GLuint* field = new GLuint[2];
 	//check right
@@ -93,11 +86,13 @@ GLfloat Player::collideX(GLfloat movement)
 		//4. no collision
 		return movement;
 	}
-	else return 0;
+	else return 0;*/
+	return movement;
 }
 
 GLfloat Player::collideY(GLfloat movement)
 {
+	/*
 	GLuint mushroom = 0;
 	GLuint* field = new GLuint[2];
 	//check bottom
@@ -138,5 +133,6 @@ GLfloat Player::collideY(GLfloat movement)
 		//4. no collision
 		return movement;
 	}
-	else return 0;
+	else return 0;*/
+	return movement;
 }
