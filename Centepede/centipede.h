@@ -3,15 +3,14 @@
 #include "GL\glew.h"
 #include <list>
 #include "renderer.h"
-#include "mushrooms.h"
-#include "shots.h"
+#include "mushroomGenerator.h"
 #include "centipedesegment.h"
 #include "settings.h"
 
 class Centipede
 {
 public:
-	Centipede(Mushrooms* mushrooms, Shots* shots);
+	Centipede(MushroomGenerator* mushrooms);
 	~Centipede();
 
 	GLuint update(GLfloat tpf);
@@ -24,7 +23,6 @@ private:
 	std::list< CentipedeSegment* > segments;
 	std::list< CentipedeSegment* >::iterator iterator;
 
-	Mushrooms* mushrooms;
-	Shots* shots;
+	MushroomGenerator* mushrooms;
 };
 

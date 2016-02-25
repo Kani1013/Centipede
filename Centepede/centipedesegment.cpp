@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-CentipedeSegment::CentipedeSegment(GLfloat* position, Type type, GLfloat width, GLfloat height, Mushrooms* mushrooms, Shots* shots)
+CentipedeSegment::CentipedeSegment(GLfloat* position, Type type, GLfloat width, GLfloat height, MushroomGenerator* mushrooms)
 {
 	this->type = type;
 	this->xPos = position[0];
@@ -10,7 +10,6 @@ CentipedeSegment::CentipedeSegment(GLfloat* position, Type type, GLfloat width, 
 	this->width = width;
 	this->height = height;
 	this->mushrooms = mushrooms;
-	this->shots = shots;
 	if (type == HEAD) {
 		prevDirection = RIGHT;
 	}
@@ -272,7 +271,8 @@ GLboolean CentipedeSegment::collideX()
 	field[0] = newX;
 	field[1] = (GLuint)yPos;
 	
-	return (mushrooms->hasMushroom(field) > 0);
+//	return (mushrooms->hasMushroom(field) > 0);
+	return GL_FALSE;
 }
 
 GLboolean CentipedeSegment::collideY()

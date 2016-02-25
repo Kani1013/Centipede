@@ -2,12 +2,20 @@
 
 Model::Model()
 {
-	mushrooms = new Mushrooms(FIELDSIZE);
-	player = new Player();
-	shots = new Shots(player, mushrooms);
-	centipede = new Centipede(mushrooms, shots);
+	mushroomManager = new MushroomGenerator();
+	std::list<GameObject*> mushrooms = mushroomManager->getMushrooms();
+	gameObjects.insert(gameObjects.end(), mushrooms.begin(), mushrooms.end());
 
-	centipede->createCentipede(15, 7);
+	player = new Player();
+	gameObjects.push_back(player);
+
+
+	//centipede = new Centipede(mushroomManager, shots);
+
+	//centipede->createCentipede(15, 7);
+
+	bulletmanager = new BulletManager(player);
+	collisionHandler = new CollisionHandler(&gameObjects);
 }
 
 Model::~Model()
@@ -26,28 +34,35 @@ void Model::terminate()
 
 void Model::update(GLfloat tpf)
 {
-	//update shots
-	shots->update(tpf);
+	bulletmanager->update(tpf);
 
 	//update centipede position (destruction of segments gets updated through method calls of shots)
-	centipede->update(tpf);
+	//centipede->update(tpf);
 
-	//try to move player
-	if (playerEventX != 0 || playerEventY != 0)
-		player->move(playerEventX * tpf, playerEventY * tpf);
+	for (iterator = gameObjects.begin(); iterator != gameObjects.end(); ++iterator)
+	{
+		(*iterator)->update(tpf);
 
+		if ((*iterator)->getIsAlive() == GL_FALSE) {
+			iterator = gameObjects.erase(iterator);
+		}
+	}
 
+	collisionHandler->doCollisionDetection();
 }
 
-void Model::reDraw(Renderer* renderer)
+void Model::reDraw(Renderer *renderer)
 {
-	mushrooms->reDraw(renderer);
-	centipede->reDraw(renderer);
-	shots->reDraw(renderer);
-	player->reDraw(renderer);
+	//centipede->reDraw(renderer);
+
+	for (iterator = gameObjects.begin(); iterator != gameObjects.end(); ++iterator)
+	{
+		(*iterator)->reDraw(renderer);
+	}
 }
 
 void Model::shoot()
 {
-	shots->shoot();
+	GameObject *bullet = bulletmanager->shoot();
+	if (bullet != nullptr) gameObjects.push_front(bullet);
 }

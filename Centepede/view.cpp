@@ -11,7 +11,7 @@ View::View(Model* model)
 
 	//Field size in pixels is width or height of display, whatever is smaller of both
 	GLuint fieldSizeInPX = SCREEN_HEIGHT;
-	if (SCREEN_WIDTH < fieldSizeInPX) fieldSizeInPX = SCREEN_WIDTH;
+	if ((GLuint) SCREEN_WIDTH < fieldSizeInPX) fieldSizeInPX = (GLuint) SCREEN_WIDTH;
 
 	//Load SpriteSheet
 	loadSpriteSheet();

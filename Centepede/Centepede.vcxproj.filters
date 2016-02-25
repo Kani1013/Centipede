@@ -31,12 +31,6 @@
     <ClCompile Include="bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shots.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mushrooms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,6 +43,18 @@
     <ClCompile Include="gameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mushroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mushroomGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collisionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="display.h" />
@@ -59,13 +65,14 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="bullet.h" />
-    <ClInclude Include="shots.h" />
-    <ClInclude Include="mushrooms.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="centipede.h" />
     <ClInclude Include="centipedesegment.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="collisionHandler.h" />
+    <ClInclude Include="mushroom.h" />
+    <ClInclude Include="mushroomGenerator.h" />
+    <ClInclude Include="bulletManager.h" />
   </ItemGroup>
 </Project>

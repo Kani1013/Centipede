@@ -1,5 +1,6 @@
 #include "game.h"
-
+#include <iostream>
+#include <stdlib.h>
 
 int main(int argc, char** argv)
 {
@@ -15,6 +16,9 @@ int main(int argc, char** argv)
 		currentTime = (GLfloat) glfwGetTime();
 		tpf = currentTime - timePassed;
 		timePassed = currentTime;
+		//system("cls");
+		//std::cout << 1 / tpf << "\n";
+
 
 		game->Update(tpf);
 	}

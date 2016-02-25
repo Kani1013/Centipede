@@ -1,7 +1,8 @@
 #include "player.h"
 
-void Player::initPosition() {
-	Position.x1 = (FIELDSIZE / 2) - (PLAYER_WIDTH / 2);
+Player::Player()
+{
+	Position.x1 = (FIELDSIZE / 2);
 	Position.y1 = (FIELDSIZE - (AREA / 2)) - (PLAYER_HEIGHT / 2);
 	Position.x2 = Position.x1 + PLAYER_WIDTH;
 	Position.y2 = Position.y1 + PLAYER_HEIGHT;
@@ -12,11 +13,11 @@ void Player::initPosition() {
 	TexCoords.y2 = 88.0f;
 
 	AABB = Position;
-};
 
-Player::Player()
-{
-	initPosition();
+	isStatic = GL_FALSE;
+	colliders.mushroom = GL_TRUE;
+	colliders.centipede = GL_TRUE;
+	ID = 3;
 }
 
 
@@ -24,18 +25,18 @@ Player::~Player()
 {
 }
 
-void Player::move(GLfloat x, GLfloat y)
+void Player::update(GLfloat tpf)
 {
-	GLfloat movementX = x * MOVEMENT_SPEED;
-	GLfloat movementY = y * MOVEMENT_SPEED;
+	GLfloat movementX = playerEventX * MOVEMENT_SPEED * tpf;
+	GLfloat movementY = playerEventY * MOVEMENT_SPEED * tpf;
 
 	Position.x1 += movementX;
-	if (x < 0 && Position.x1 < 0) Position.x1 = 0;
-	else if (x > 0 && Position.x1 > FIELDSIZE - PLAYER_WIDTH) Position.x1 = FIELDSIZE - PLAYER_WIDTH;
+	if (playerEventX < 0 && Position.x1 < 0) Position.x1 = 0;
+	else if (playerEventX > 0 && Position.x1 > FIELDSIZE - PLAYER_WIDTH) Position.x1 = FIELDSIZE - PLAYER_WIDTH;
 
 	Position.y1 += movementY;
-	if (y < 0 && Position.y1 < FIELDSIZE - AREA) Position.y1 = FIELDSIZE - AREA;
-	else if (y > 0 && Position.y1 > FIELDSIZE - PLAYER_HEIGHT) Position.y1 = FIELDSIZE - PLAYER_HEIGHT;
+	if (playerEventY < 0 && Position.y1 < FIELDSIZE - AREA) Position.y1 = FIELDSIZE - AREA;
+	else if (playerEventY > 0 && Position.y1 > FIELDSIZE - PLAYER_HEIGHT) Position.y1 = FIELDSIZE - PLAYER_HEIGHT;
 
 	Position.x2 = Position.x1 + PLAYER_WIDTH;
 	Position.y2 = Position.y1 + PLAYER_HEIGHT;
@@ -43,96 +44,68 @@ void Player::move(GLfloat x, GLfloat y)
 	AABB = Position;
 }
 
-GLfloat Player::collideX(GLfloat movement)
+void Player::handleCollision(GameObject* collider)
 {
-	/*
-	GLuint mushroom = 0;
-	GLuint* field = new GLuint[2];
-	//check right
-	if (movement > 0)
-	{
-		GLfloat newPosX2 = posX2 + movement;
-		//1. check for Fieldborder
-		if (newPosX2 > fieldSize) return fieldSize - posX2 - 0.0001;
-		//2. check for centipede
-		//3. check for mushrooms
-		else if ((GLuint)newPosX2 > (GLuint)posX2) {
-			field[0] = (GLuint)newPosX2;
-			field[1] = (GLuint)posY1;
-			mushroom += mushrooms->hasMushroom(field);
-			field[1] = (GLuint)posY2;
-			mushroom += mushrooms->hasMushroom(field);
-			if (mushroom > 0) return (GLuint)newPosX2 - posX2 - 0.0001;
-		}
-		//4. no collision
-		return movement;
+	if (collider->ID == 2) {
+		isAlive = GL_FALSE;
 	}
-	//check left
-	else if (movement < 0)
-	{
-		GLfloat newPosX1 = posX1 + movement;
-		//1. check for Fieldborder
-		if (newPosX1 < 0) return - posX1;
-		//2. check for centipede
-		//3. check for mushrooms
-		else if ((GLuint)newPosX1 < (GLuint)posX1) {
-			field[0] = (GLuint)newPosX1;
-			field[1] = (GLuint)posY1;
-			mushroom += mushrooms->hasMushroom(field);
-			field[1] = (GLuint)posY2;
-			mushroom += mushrooms->hasMushroom(field);
-			if (mushroom > 0) return (GLuint)posX1 - posX1;
+	else if (collider->ID == 0) {
+		//Mushroom collision
+		Rect colPos = collider->getPosition();
+		GLfloat overlapX = 0;					//Movement does only get restricted in one direction. We have to be able to move along an edge without jumping to the corner!
+		GLfloat overlapY = 0;					//Therefore we calculate the smallest overlap and correct it.
+		GLfloat deltaX = 0;						//Delta = correction distance. For Error Correction the correction will be ignored if delta is higher than [value]
+		GLfloat deltaY = 0;						//This applies when moving along an edge or over a corner.
+
+		//Check Axes:
+		overlapX = Position.x2 - colPos.x1;
+		if (overlapX > 1) overlapX = colPos.x2 - Position.x1;
+		overlapY = Position.y2 - colPos.y1;
+		if (overlapY > 1)  overlapY = colPos.y2 - Position.y1;
+
+		if (overlapX < overlapY) {								//Correct X
+			if (playerEventX > 0) deltaX = colPos.x1 - PLAYER_WIDTH - Position.x1;
+			else				  deltaX = colPos.x2 - Position.x1;
+
+			if (deltaX > -0.4 && deltaX < 0.4) {
+				Position.x1 += deltaX;
+				Position.x2 = Position.x1 + PLAYER_WIDTH;
+			}
 		}
-		//4. no collision
-		return movement;
+		else {													//Correct Y
+			if (playerEventY > 0) deltaY = colPos.y1 - PLAYER_HEIGHT - Position.y1;
+			else				  deltaY = colPos.y2 - Position.y1;
+
+			if (deltaY > -0.4 && deltaY < 0.4) {
+				Position.y1 += deltaY;
+				Position.y2 = Position.y1 + PLAYER_HEIGHT;
+			}
+		}
+
+		//Align AABB
+		AABB = Position;
 	}
-	else return 0;*/
-	return movement;
 }
 
-GLfloat Player::collideY(GLfloat movement)
+GLboolean Player::checkCollidesWith(GameObject* collider)
 {
-	/*
-	GLuint mushroom = 0;
-	GLuint* field = new GLuint[2];
-	//check bottom
-	if (movement > 0)
-	{
-		GLfloat newPosY2 = posY2 + movement;
-		//1. check for Fieldborder
-		if (newPosY2 > fieldSize) return fieldSize - posY2 - 0.0001;
-		//2. check for centipede
-		//3. check for mushrooms
-		else if ((GLuint)newPosY2 > (GLuint)posY2) {
-			field[0] = (GLuint)posX1;
-			field[1] = (GLuint)newPosY2;
-			mushroom += mushrooms->hasMushroom(field);
-			field[0] = (GLuint)posX2;
-			mushroom += mushrooms->hasMushroom(field);
-			if (mushroom > 0) return (GLuint) newPosY2 - posY2 - 0.0001;
-		}
-		//4. no collision
-		return movement;
+	GLboolean result;
+	switch (collider->ID) {
+	case 0:
+		result = colliders.mushroom;
+		if (colliders.mushroom == GL_TRUE) result = (collider->getPosition().y2 > FIELDSIZE - AREA); //Mushrooms beyond players movement area dont need to be checked -> Performance increase
+		break;
+	case 1:
+		result = colliders.bullet;
+		break;
+	case 2:
+		result = colliders.centipede;
+		break;
+	case 3:
+		result = colliders.player;
+		break;
+	default:
+		result = GL_FALSE;
 	}
-	//check top
-	else if (movement < 0)
-	{
-		GLfloat newPosY1 = posY1 + movement;
-		//1. check for Fieldborder
-		if (newPosY1 < fieldSize - AREA) return fieldSize - AREA - posY1;
-		//2. check for centipede
-		//3. check for mushrooms
-		else if ((GLuint)newPosY1 < (GLuint)posY1) {
-			field[0] = (GLuint)posX1;
-			field[1] = (GLuint)newPosY1;
-			mushroom += mushrooms->hasMushroom(field);
-			field[0] = (GLuint)posX2;
-			mushroom += mushrooms->hasMushroom(field);
-			if (mushroom > 0) return (GLuint) posY1 - posY1;
-		}
-		//4. no collision
-		return movement;
-	}
-	else return 0;*/
-	return movement;
+	return result;
 }

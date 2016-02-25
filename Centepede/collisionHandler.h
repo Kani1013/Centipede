@@ -1,28 +1,24 @@
 #pragma once
 
 #include <GL\glew.h>
+#include <list>
 #include "gameObject.h"
 
 class CollisionHandler
 {
 	public:
 
+		CollisionHandler(std::list<GameObject*>* gameObjects);
+		~CollisionHandler();
+
 		void doCollisionDetection();
 
 
 	private:
 
-		GLboolean isColliding(GameObject* objA, GameObject* objB)
-		{
-			Rect A = objA->getAABB();
-			Rect B = objB->getAABB();
+		GLboolean isColliding(GameObject* objA, GameObject* objB);
 
-			return !(
-						A.x2 < B.x1 ||
-						B.x2 < A.x1 ||
-						A.y2 < B.y1 ||
-						B.y2 < A.y1
-					);
-		};
-
+		std::list<GameObject*>* gameObjects;
+		std::list<GameObject*>::iterator iteratorOuter;
+		std::list<GameObject*>::iterator iteratorInner;
 };

@@ -150,22 +150,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bulletManager.cpp" />
     <ClCompile Include="centipede.cpp" />
     <ClCompile Include="centipedesegment.cpp" />
+    <ClCompile Include="collisionHandler.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
-    <ClCompile Include="mushrooms.cpp" />
+    <ClCompile Include="mushroom.cpp" />
+    <ClCompile Include="mushroomGenerator.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="shots.cpp" />
     <ClCompile Include="view.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bulletManager.h" />
     <ClInclude Include="centipede.h" />
     <ClInclude Include="centipedesegment.h" />
     <ClInclude Include="collisionHandler.h" />
@@ -174,13 +177,13 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="model.h" />
-    <ClInclude Include="mushrooms.h" />
+    <ClInclude Include="mushroom.h" />
+    <ClInclude Include="mushroomGenerator.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="bullet.h" />
-    <ClInclude Include="shots.h" />
     <ClInclude Include="view.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

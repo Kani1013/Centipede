@@ -1,12 +1,13 @@
 #pragma once
 
 #include <GL\glew.h>
-
+#include <list>
 #include "renderer.h"
 #include "centipede.h"
 #include "player.h"
-#include "shots.h"
-#include "mushrooms.h"
+#include "bulletManager.h"
+#include "mushroomGenerator.h"
+#include "collisionHandler.h"
 
 
 class Model
@@ -23,14 +24,17 @@ public:
 
 	void shoot();
 
-	GLfloat playerEventX = 0;	// 0 do nothing, 1 try move right, -1 try move left
-	GLfloat playerEventY = 0;	// 0 do nothing, 1 try move down,  -1 try move up
+	Player* player;
 
 private:
+	std::list<GameObject*> gameObjects;
+	std::list<GameObject*>::iterator iterator;
+	BulletManager* bulletmanager;
+
 	Centipede* centipede;
-	Player* player;
-	Shots* shots;
-	Mushrooms* mushrooms;
+	MushroomGenerator* mushroomManager;
+
+	CollisionHandler* collisionHandler;
 
 	bool shouldTerminate = false;
 };

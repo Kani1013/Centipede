@@ -2,8 +2,7 @@
 
 #include "GL\glew.h"
 #include "renderer.h"
-#include "mushrooms.h"
-#include "shots.h"
+#include "mushroomGenerator.h"
 #include "bullet.h"
 #include "settings.h"
 
@@ -22,7 +21,7 @@ public:
 		UP
 	};
 
-	CentipedeSegment(GLfloat* position, Type type, GLfloat width, GLfloat height, Mushrooms* mushrooms, Shots* shots);
+	CentipedeSegment(GLfloat* position, Type type, GLfloat width, GLfloat height, MushroomGenerator* mushrooms);
 	~CentipedeSegment();
 
 	Direction getDirection();
@@ -40,8 +39,7 @@ private:
 	Type type;
 	GLfloat xPos, yPos, width, height, xTex1 = 0, yTex1 = 0, xTex2 = 0, yTex2 = 0;
 
-	Mushrooms* mushrooms;
-	Shots* shots;
+	MushroomGenerator* mushrooms;
 
 
 	//Return 0 if movement was in same field. If entering new field it returns the movement distance remaining to move in new field which may be another direction

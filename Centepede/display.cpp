@@ -32,7 +32,7 @@ Display::Display(int width, int height, const std::string& title)
 	}
 
 	
-	glViewport(0.0f, 0.0f, width, height);
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, width, 0, height, 0, 1);

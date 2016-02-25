@@ -2,10 +2,9 @@
 #include <iostream>
 
 
-Centipede::Centipede(Mushrooms* mushrooms, Shots* shots)
+Centipede::Centipede(MushroomGenerator* mushrooms)
 {
 	this->mushrooms = mushrooms;
-	this->shots = shots;
 }
 
 
@@ -20,14 +19,15 @@ void Centipede::createCentipede(GLuint xPos, GLuint length)
 	position[1] = 0.0f;
 
 	segments.push_front(
-		new CentipedeSegment(position, CentipedeSegment::HEAD, CENTISEGMENT_WIDTH, CENTISEGMENT_HEIGHT, mushrooms, shots)
+		new CentipedeSegment(position, CentipedeSegment::HEAD, CENTISEGMENT_WIDTH, CENTISEGMENT_HEIGHT, mushrooms)
 	);
 	position[1] += 1;
 
-	for (GLint i = 1; i <= length; i++) {
-		position[1] = -i;
+	for (GLuint i = 1; i <= length; i++) {
+		position[1] = (float) i;
+		position[1] *= -1;
 		segments.push_back(
-			new CentipedeSegment(position, CentipedeSegment::BODY, CENTISEGMENT_WIDTH, CENTISEGMENT_HEIGHT, mushrooms, shots)
+			new CentipedeSegment(position, CentipedeSegment::BODY, CENTISEGMENT_WIDTH, CENTISEGMENT_HEIGHT, mushrooms)
 		);
 	}
 }
@@ -43,7 +43,7 @@ GLuint Centipede::update(GLfloat tpf)
 		if (state != 0)
 		{
 			//was hit: create mushroom
-			mushrooms->createMushroom((*iterator)->getField());
+//			mushrooms->createMushroom((*iterator)->getField());
 			iterator = segments.erase(iterator);
 			if (iterator != segments.end())	(*iterator)->turnIntoHead();
 			centiseg = nullptr;

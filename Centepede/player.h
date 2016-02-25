@@ -2,7 +2,6 @@
 
 #include <GL\glew.h>
 #include "gameObject.h"
-#include "renderer.h"
 #include "settings.h"
 
 class Player: public GameObject
@@ -11,13 +10,13 @@ public:
 	Player();
 	virtual ~Player();
 
-	void move(GLfloat x, GLfloat y);
+	void update(GLfloat tpf);
 
-private:
-	void initPosition();
+	virtual GLboolean checkCollidesWith(GameObject* collider);
 
-	//Checks for movementBorder
-	GLfloat collideX(GLfloat movement);
-	//Checks for movementBorder
-	GLfloat collideY(GLfloat movement);
+	virtual void handleCollision(GameObject* collider);
+
+	GLfloat playerEventX = 0;	// 0 do nothing, 1 move right, -1 move left
+	GLfloat playerEventY = 0;	// 0 do nothing, 1 move down,  -1 move up
+
 };
