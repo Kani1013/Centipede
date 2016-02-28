@@ -14,10 +14,10 @@ public:
 
 	void update(GLfloat tpf);
 
+	void spawnCentipede();
 	void spawnMushroom(Vec position);
 
 private:
-	void spawnCentipede();
 	Model *model;
 
 	CentipedeSegment *previous, *current;

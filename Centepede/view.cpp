@@ -53,7 +53,6 @@ bool View::isClosed()
 
 void View::loadSpriteSheet()
 {
-	std::cout << "Load SpriteSheet\n";
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	// Set the texture wrapping parameters
@@ -62,15 +61,8 @@ void View::loadSpriteSheet()
 	// Set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	// Load image, create texture and generate mipmaps
-	unsigned char* image = SOIL_load_image(SPRITE_SHEET, &TextureWidth, &TextureHeight, 0, SOIL_LOAD_RGBA);
-	if (image == 0) {
-		std::cout << "Failed to load SpriteSheet " << SPRITE_SHEET << "\n";
-		glfwTerminate();
-		system("pause");
-		display->Close();
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureWidth, TextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	TextureWidth = 64;
+	TextureHeight = 32;
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TextureWidth, TextureHeight, 0, GL_RGB, GL_FLOAT, textureRGB);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
 }

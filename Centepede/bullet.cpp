@@ -7,15 +7,16 @@ Bullet::Bullet(Vec spawn)
 	Position.x2 = Position.x1 + BULLET_WIDTH;
 	Position.y2 = spawn.y;
 
-	TexCoords.x1 = 11.0f;
-	TexCoords.y1 = 82.0f;
-	TexCoords.x2 = 12.0f;
-	TexCoords.y2 = 86.0f;
+	TexCoords.x1 = 16.0f;
+	TexCoords.y1 = 0.0f;
+	TexCoords.x2 = 18.0f;
+	TexCoords.y2 = 8.0f;
 
 	AABB = Position;
 
 	isStatic = GL_FALSE;
 	isAlive = GL_TRUE;
+	isVisible = GL_TRUE;
 	colliders.mushroom = GL_TRUE;
 	colliders.centipede = GL_TRUE;
 	ID = 1;

@@ -26,6 +26,8 @@ void Model::update(GLfloat tpf)
 		gameOver();
 	}
 
+	noCentipede = GL_TRUE;
+
 	bulletmanager->update(tpf);
 	centipedeManager->update(tpf);
 
@@ -36,12 +38,15 @@ void Model::update(GLfloat tpf)
 			iterator = gameObjects.erase(iterator);
 		}
 		else {
+			if ((*iterator)->ID == 2) noCentipede = GL_FALSE;
 			(*iterator)->update(tpf);
 			iterator++;
 		}
 	}
 
 	collisionHandler->doCollisionDetection();
+
+	if (noCentipede == GL_TRUE) centipedeManager->spawnCentipede();
 }
 
 void Model::reDraw(Renderer *renderer)

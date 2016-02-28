@@ -42,10 +42,10 @@ void Mushroom::updateTexCoord()
 	else {
 		isVisible = GL_TRUE;
 
-		TexCoords.x1 = (GLfloat) 96 - (state * 8);
-		TexCoords.y1 = 0;
-		TexCoords.x2 = (GLfloat) 96 - (state * 8) + 8;
-		TexCoords.y2 = 8;
+		TexCoords.x1 = (GLfloat) 64 - (state * 16);
+		TexCoords.y1 = 16;
+		TexCoords.x2 = (GLfloat) 80 - (state * 16);
+		TexCoords.y2 = 32;
 	}
 }
 

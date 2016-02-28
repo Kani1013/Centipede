@@ -8,14 +8,15 @@ Player::Player()
 	Position.y2 = Position.y1 + PLAYER_HEIGHT;
 
 	TexCoords.x1 = 0.0f;
-	TexCoords.y1 = 80.0f;
-	TexCoords.x2 = 7.0f;
-	TexCoords.y2 = 88.0f;
+	TexCoords.y1 = 0.0f;
+	TexCoords.x2 = 16.0f;
+	TexCoords.y2 = 16.0f;
 
 	AABB = Position;
 
 	isStatic = GL_FALSE;
 	isAlive = GL_TRUE;
+	isVisible = GL_TRUE;
 	colliders.mushroom = GL_TRUE;
 	colliders.centipede = GL_TRUE;
 	ID = 3;

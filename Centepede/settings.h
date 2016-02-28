@@ -29,7 +29,6 @@
 //Shader
 #define VERTEX_SHADER			"vertex.shader"
 #define FRAGMENT_SHADER			"fragment.shader"
-#define SPRITE_SHEET			"centipedeSprites.jpg"
 
 //Controls
 #define MOVE_LEFT				GLFW_KEY_LEFT

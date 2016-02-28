@@ -43,5 +43,7 @@ private:
 	void gameOver();
 	
 	GLuint gameState; //0 = terminated, 1= endscreen (game over), 2 = running
+
+	GLboolean noCentipede;
 };
 

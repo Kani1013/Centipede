@@ -11,6 +11,8 @@ void CentipedeManager::spawnCentipede()
 {
 	if (CENTIPEDE_LENGTH < 1) return;
 
+	timeUntilNextSpawn = CENTI_SPAWN_INTERVAL_S;
+
 	Vec spawnpoint;
 	spawnpoint.x = (GLuint)(FIELDSIZE / 2);
 	spawnpoint.y = -1;
@@ -24,15 +26,16 @@ void CentipedeManager::spawnCentipede()
 		model->push_back(current);
 		spawnpoint.y -= 1;
 
-		switch (direction)
-		{
-		case CentipedeSegment::LEFT:
-			direction = CentipedeSegment::RIGHT;
-			break;
-		default:
-			direction = CentipedeSegment::LEFT;
-			break;
-		}
+	}
+
+	switch (direction)
+	{
+	case CentipedeSegment::LEFT:
+		direction = CentipedeSegment::RIGHT;
+		break;
+	default:
+		direction = CentipedeSegment::LEFT;
+		break;
 	}
 
 	current->setFollowing(nullptr);
@@ -47,11 +50,10 @@ void CentipedeManager::update(GLfloat tpf)
 	timeUntilNextSpawn -= tpf;
 	if (timeUntilNextSpawn <= 0) {
 		spawnCentipede();
-		timeUntilNextSpawn = CENTI_SPAWN_INTERVAL_S;
 	}
 }
 
 void CentipedeManager::spawnMushroom(Vec position) {
 	if (position.y < 1 || position.y > FIELDSIZE) return;
-	model->push_back(new Mushroom(position));
+	model->push_front(new Mushroom(position));
 }

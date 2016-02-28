@@ -13,6 +13,7 @@ CentipedeSegment::CentipedeSegment(Vec position, CentipedeSegment *previous, Cen
 
 	isStatic = GL_FALSE;
 	isAlive = GL_TRUE;
+	isVisible = GL_TRUE;
 	colliders.mushroom = GL_TRUE;
 	colliders.centipede = GL_TRUE;
 	colliders.player = GL_TRUE;
@@ -56,7 +57,7 @@ void CentipedeSegment::update(GLfloat tpf)
 			break;
 		case UP:
 			Position.y1 -= movement;
-			if (getCenter().y < FIELDSIZE - 2 && (GLuint)Position.y1 != (GLuint)AABB.y1) updateDirection();
+			if (getCenter().y < FIELDSIZE - AREA && (GLuint)Position.y1 != (GLuint)AABB.y1) updateDirection();
 			break;
 		case DOWN:
 			Position.y1 += movement;
@@ -249,22 +250,21 @@ void CentipedeSegment::handleCollision(GameObject* collider)
 void CentipedeSegment::updateTexCoord()
 {
 	if (type == HEAD) {
-		TexCoords.x1 = 0;
+		TexCoords.x1 = 32;
 		TexCoords.y1 = 0;
-		TexCoords.x2 = 7;
-		TexCoords.y2 = 8;
+		TexCoords.x2 = 44;
+		TexCoords.y2 = 16;
 	}
 	else {
-		TexCoords.x1 = 0;
-		TexCoords.y1 = 16;
-		TexCoords.x2 = 7;
-		TexCoords.y2 = 24;
+		TexCoords.x1 = 48;
+		TexCoords.y1 = 0;
+		TexCoords.x2 = 60;
+		TexCoords.y2 = 16;
 	}
 
 	if (direction == RIGHT) {
 		//mirror on center y axis
-		GLfloat help;
-		help = TexCoords.x1;
+		GLfloat help = TexCoords.x1;
 		TexCoords.x1 = TexCoords.x2;
 		TexCoords.x2 = help;
 	}
