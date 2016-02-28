@@ -188,10 +188,18 @@
     <ClInclude Include="mushroomGenerator.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="view.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Centipede.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\Centipede\head.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

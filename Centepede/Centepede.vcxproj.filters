@@ -74,5 +74,13 @@
     <ClInclude Include="mushroomGenerator.h" />
     <ClInclude Include="bulletManager.h" />
     <ClInclude Include="centipedeManager.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Centipede.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\Centipede\head.ico" />
   </ItemGroup>
 </Project>

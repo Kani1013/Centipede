@@ -17,7 +17,7 @@ void MushroomGenerator::generateMushrooms() {
 		//don't generate mushrooms in players area initially
 		for (int row = 0; row < FIELDSIZE; row++) {
 			position.y = (GLfloat)row;
-			if (row > 0 && row < FIELDSIZE - AREA)
+			if (row > 0 && row < FIELDSIZE - (GLuint)(AREA / 2))
 			{
 				if (chance > 0 && (rand() % 100) < (GLint)chance) {
 					mushroom = new Mushroom(position);
