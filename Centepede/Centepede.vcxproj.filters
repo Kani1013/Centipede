@@ -34,9 +34,6 @@
     <ClCompile Include="renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="centipede.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="centipedesegment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,7 +66,6 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="centipede.h" />
     <ClInclude Include="centipedesegment.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="gameObject.h" />

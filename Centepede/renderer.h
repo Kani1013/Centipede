@@ -10,7 +10,6 @@ public:
 	~Renderer();
 
 	void draw(GameObject* gameObject);
-	void draw(GLfloat posX1, GLfloat posY1, GLfloat posX2, GLfloat posY2, GLfloat texX1, GLfloat texY1, GLfloat texX2, GLfloat texY2);
 
 private:
 

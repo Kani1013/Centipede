@@ -4,21 +4,31 @@ View::View(Model* model)
 {
 	View::model = model;
 
+	GLuint width, height;
+	width = SCREEN_WIDTH;
+	height = SCREEN_HEIGHT;
+
+
 	//Create window
-	display = new Display(SCREEN_WIDTH, SCREEN_HEIGHT, "Centipede | Projektarbeit von Nikolaj Kappler");
-	//glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	display = new Display(width, height, "Centipede | Projektarbeit von Nikolaj Kappler");
 	glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	if (FULLSCREEN != 0) {
+		const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		width = mode->width;
+		height = mode->height;
+	}
+
 	//Field size in pixels is width or height of display, whatever is smaller of both
-	GLuint fieldSizeInPX = SCREEN_HEIGHT;
-	if ((GLuint) SCREEN_WIDTH < fieldSizeInPX) fieldSizeInPX = (GLuint) SCREEN_WIDTH;
+	GLuint fieldSizeInPX = height;
+	if ((GLuint) width < fieldSizeInPX) fieldSizeInPX = (GLuint) width;
 
 	//Load SpriteSheet
 	loadSpriteSheet();
 
 	//Load Shader
 	shader = new Shader(VERTEX_SHADER, FRAGMENT_SHADER, display);
-	shader->setResolutions(SCREEN_WIDTH, SCREEN_HEIGHT, TextureWidth, TextureHeight, fieldSizeInPX);
+	shader->setResolutions(width, height, TextureWidth, TextureHeight, fieldSizeInPX);
 	shader->Use();
 
 	//Create Renderer

@@ -56,7 +56,7 @@ void CentipedeSegment::update(GLfloat tpf)
 			break;
 		case UP:
 			Position.y1 -= movement;
-			if (getCenter().y < FIELDSIZE - 1 && (GLuint)Position.y1 != (GLuint)AABB.y1) updateDirection();
+			if (getCenter().y < FIELDSIZE - 2 && (GLuint)Position.y1 != (GLuint)AABB.y1) updateDirection();
 			break;
 		case DOWN:
 			Position.y1 += movement;
@@ -242,6 +242,7 @@ void CentipedeSegment::handleCollision(GameObject* collider)
 		if(isAlive) //prevents double mushroom spawning
 			centipedeManager->spawnMushroom(this->getCenter());
 		isAlive = false;
+		if (previous != nullptr) previous->setFollowing(nullptr);
 	}
 }
 

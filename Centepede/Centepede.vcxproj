@@ -155,7 +155,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bulletManager.cpp" />
-    <ClCompile Include="centipede.cpp" />
     <ClCompile Include="centipedeManager.cpp" />
     <ClCompile Include="centipedesegment.cpp" />
     <ClCompile Include="collisionHandler.cpp" />
@@ -174,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bulletManager.h" />
-    <ClInclude Include="centipede.h" />
     <ClInclude Include="centipedeManager.h" />
     <ClInclude Include="centipedesegment.h" />
     <ClInclude Include="collisionHandler.h" />

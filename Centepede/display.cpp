@@ -15,7 +15,12 @@ Display::Display(int width, int height, const std::string& title)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	GLFWmonitor *monitor = NULL;
-	if (FULLSCREEN != 0) monitor = glfwGetPrimaryMonitor();
+	if (FULLSCREEN != 0) { 
+		monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+		width = mode->width;
+		height = mode->height;
+	}
 
 
 	window = glfwCreateWindow(width, height, title.c_str(), monitor, NULL);	
@@ -54,7 +59,6 @@ void Display::Clear(float r, float g, float b, float a)
 {
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT);
-
 }
 
 void Display::Close() {

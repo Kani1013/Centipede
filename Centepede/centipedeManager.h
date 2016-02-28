@@ -22,5 +22,7 @@ private:
 
 	CentipedeSegment *previous, *current;
 	GLfloat timeUntilNextSpawn;
+
+	CentipedeSegment::Direction direction = CentipedeSegment::LEFT;
 };
 

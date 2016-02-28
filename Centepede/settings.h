@@ -5,10 +5,10 @@
 
 //Centipede
 #define CENTIPEDE_SPEED			12.0f
-#define CENTIPEDE_LENGTH		7
+#define CENTIPEDE_LENGTH		6
 #define CENTISEGMENT_WIDTH		.875f
 #define CENTISEGMENT_HEIGHT		1.0f
-#define CENTI_SPAWN_INTERVAL_S	25
+#define CENTI_SPAWN_INTERVAL_S	20
 #define SEGMENT_SPACING			0.125f
 
 //Player
@@ -24,7 +24,7 @@
 #define COOLDOWN				.5f
 #define BULLET_WIDTH			.125f
 #define BULLET_HEIGHT			.5f
-#define BULLET_SPEED			-20.0f
+#define BULLET_SPEED			-30.0f
 
 //Shader
 #define VERTEX_SHADER			"vertex.shader"
@@ -43,5 +43,4 @@
 //Window
 #define SCREEN_WIDTH			800
 #define SCREEN_HEIGHT			800
-#define FULLSCREEN				0
-
+#define FULLSCREEN				1

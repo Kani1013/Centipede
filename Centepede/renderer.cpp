@@ -46,35 +46,6 @@ void Renderer::draw(GameObject* gameObject)
 	glBindVertexArray(0);
 }
 
-void Renderer::draw(GLfloat posX1, GLfloat posY1, GLfloat posX2, GLfloat posY2, GLfloat texX1, GLfloat texY1, GLfloat texX2, GLfloat texY2)
-{
-	//coordinates
-	vertices[0] = posX1;
-	vertices[1] = posY1;
-	vertices[4] = posX2;
-	vertices[5] = posY1;
-	vertices[8] = posX2;
-	vertices[9] = posY2;
-	vertices[12] = posX1;
-	vertices[13] = posY2;
-	//texture coordinates
-	vertices[2] = texX1;
-	vertices[3] = texY1;
-	vertices[6] = texX2;
-	vertices[7] = texY1;
-	vertices[10] = texX2;
-	vertices[11] = texY2;
-	vertices[14] = texX1;
-	vertices[15] = texY2;
-	//draw
-	glBindVertexArray(this->VAO);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}
-
 Renderer::Renderer()
 {
 
