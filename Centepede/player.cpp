@@ -15,6 +15,7 @@ Player::Player()
 	AABB = Position;
 
 	isStatic = GL_FALSE;
+	isAlive = GL_TRUE;
 	colliders.mushroom = GL_TRUE;
 	colliders.centipede = GL_TRUE;
 	ID = 3;

@@ -10,8 +10,8 @@
 #include "display.h"
 #include "settings.h"
 
-#define SCREEN_WIDTH GetSystemMetrics(SM_CXSCREEN)
-#define SCREEN_HEIGHT GetSystemMetrics(SM_CYSCREEN)
+//#define SCREEN_WIDTH GetSystemMetrics(SM_CXSCREEN)
+//#define SCREEN_HEIGHT GetSystemMetrics(SM_CYSCREEN)
 
 class Shader
 {

@@ -9,6 +9,7 @@
 #include "shader.h"
 #include "display.h"
 #include "renderer.h"
+#include "settings.h"
 
 class View
 {

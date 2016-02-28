@@ -2,49 +2,42 @@
 
 Model::Model()
 {
-	mushroomManager = new MushroomGenerator();
-	std::list<GameObject*> mushrooms = mushroomManager->getMushrooms();
-	gameObjects.insert(gameObjects.end(), mushrooms.begin(), mushrooms.end());
-
-	player = new Player();
-	gameObjects.push_back(player);
-
-
-	//centipede = new Centipede(mushroomManager, shots);
-
-	//centipede->createCentipede(15, 7);
-
-	bulletmanager = new BulletManager(player);
-	collisionHandler = new CollisionHandler(&gameObjects);
+	newGame();
 }
 
 Model::~Model()
 {
 }
 
-bool Model::isRunning()
+GLuint Model::getGameState()
 {
-	return !shouldTerminate;
+	return gameState;
 }
 
 void Model::terminate()
 {
-	shouldTerminate = true;
+	gameState = 0;
 }
 
 void Model::update(GLfloat tpf)
 {
+	if (gameState != 2) return;
+	if (player->getIsAlive() == GL_FALSE) {
+		gameOver();
+	}
+
 	bulletmanager->update(tpf);
+	centipedeManager->update(tpf);
 
-	//update centipede position (destruction of segments gets updated through method calls of shots)
-	//centipede->update(tpf);
-
-	for (iterator = gameObjects.begin(); iterator != gameObjects.end(); ++iterator)
+	iterator = gameObjects.begin();
+	while (iterator != gameObjects.end())
 	{
-		(*iterator)->update(tpf);
-
 		if ((*iterator)->getIsAlive() == GL_FALSE) {
 			iterator = gameObjects.erase(iterator);
+		}
+		else {
+			(*iterator)->update(tpf);
+			iterator++;
 		}
 	}
 
@@ -53,8 +46,6 @@ void Model::update(GLfloat tpf)
 
 void Model::reDraw(Renderer *renderer)
 {
-	//centipede->reDraw(renderer);
-
 	for (iterator = gameObjects.begin(); iterator != gameObjects.end(); ++iterator)
 	{
 		(*iterator)->reDraw(renderer);
@@ -63,6 +54,43 @@ void Model::reDraw(Renderer *renderer)
 
 void Model::shoot()
 {
+	if (player->getIsAlive() == GL_FALSE) return;
+
 	GameObject *bullet = bulletmanager->shoot();
 	if (bullet != nullptr) gameObjects.push_front(bullet);
+}
+
+
+void Model::push_front(GameObject *gameObject)
+{
+	gameObjects.push_front(gameObject);
+}
+
+void Model::push_back(GameObject *gameObject)
+{
+	gameObjects.push_back(gameObject);
+}
+
+void Model::gameOver()
+{
+	gameState = 1;
+	gameObjects.clear();
+	mushroomManager->generateEndScreen();
+}
+
+void Model::newGame()
+{
+	gameState = 2;
+	gameObjects.clear();
+
+	mushroomManager = new MushroomGenerator(this);
+	mushroomManager->generateMushrooms();
+
+	player = new Player();
+	gameObjects.push_back(player);
+
+	centipedeManager = new CentipedeManager(this);
+
+	bulletmanager = new BulletManager(player);
+	collisionHandler = new CollisionHandler(&gameObjects);
 }

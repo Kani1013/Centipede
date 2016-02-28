@@ -18,7 +18,7 @@ Game::~Game()
 }
 
 bool Game::isRunning() {
-	return ( !shouldClose && (!view->isClosed()) && model->isRunning());
+	return ( !shouldClose && (!view->isClosed()) && model->getGameState() > 0);
 }
 
 void Game::Update(GLfloat tpf)

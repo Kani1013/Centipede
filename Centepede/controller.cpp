@@ -34,5 +34,9 @@ void Controller::pollEvents()
 	//Check for shooting
 	if (glfwGetKey(glfwGetCurrentContext(), SHOOT) == GLFW_PRESS)
 		model->shoot();
+
+	//new Game
+	if (glfwGetKey(glfwGetCurrentContext(), NEW_GAME) == GLFW_PRESS)
+		model->newGame();
 		
 }

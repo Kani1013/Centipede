@@ -3,7 +3,7 @@
 #include <GL\glew.h>
 #include <list>
 #include "renderer.h"
-#include "centipede.h"
+#include "centipedeManager.h"
 #include "player.h"
 #include "bulletManager.h"
 #include "mushroomGenerator.h"
@@ -16,26 +16,32 @@ public:
 	Model();
 	~Model();
 
-	bool isRunning();
+	void newGame();
+
+	GLuint getGameState();
 	void terminate();
 
 	void update(GLfloat tpf);
 	void reDraw(Renderer* renderer);
 
 	void shoot();
+	void push_front(GameObject *gameObject);
+	void push_back(GameObject *gameObject);
 
-	Player* player;
+	Player *player;
 
 private:
 	std::list<GameObject*> gameObjects;
 	std::list<GameObject*>::iterator iterator;
-	BulletManager* bulletmanager;
 
-	Centipede* centipede;
+	BulletManager* bulletmanager;
+	CentipedeManager *centipedeManager;
 	MushroomGenerator* mushroomManager;
 
 	CollisionHandler* collisionHandler;
 
-	bool shouldTerminate = false;
+	void gameOver();
+	
+	GLuint gameState; //0 = terminated, 1= endscreen (game over), 2 = running
 };
 

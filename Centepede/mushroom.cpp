@@ -12,8 +12,8 @@ Mushroom::Mushroom(Vec fieldPosition, GLuint state)
 
 void Mushroom::init(Vec fieldPosition, GLuint state)
 {
-	Position.x1 = fieldPosition.x;
-	Position.y1 = fieldPosition.y;
+	Position.x1 = (GLfloat)((GLuint) fieldPosition.x);
+	Position.y1 = (GLfloat)((GLuint) fieldPosition.y);
 	Position.x2 = Position.x1 + 1;
 	Position.y2 = Position.y1 + 1;
 

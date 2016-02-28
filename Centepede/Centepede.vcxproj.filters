@@ -55,6 +55,9 @@
     <ClCompile Include="bulletManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="centipedeManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="display.h" />
@@ -74,5 +77,6 @@
     <ClInclude Include="mushroom.h" />
     <ClInclude Include="mushroomGenerator.h" />
     <ClInclude Include="bulletManager.h" />
+    <ClInclude Include="centipedeManager.h" />
   </ItemGroup>
 </Project>

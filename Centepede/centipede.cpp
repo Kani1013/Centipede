@@ -2,9 +2,8 @@
 #include <iostream>
 
 
-Centipede::Centipede(MushroomGenerator* mushrooms)
+Centipede::Centipede()
 {
-	this->mushrooms = mushrooms;
 }
 
 
@@ -12,6 +11,7 @@ Centipede::~Centipede()
 {
 }
 
+	/*
 void Centipede::createCentipede(GLuint xPos, GLuint length)
 {
 	GLfloat* position = new GLfloat[2];
@@ -34,6 +34,7 @@ void Centipede::createCentipede(GLuint xPos, GLuint length)
 
 GLuint Centipede::update(GLfloat tpf)
 {
+	/*
 	iterator = segments.begin();
 	CentipedeSegment* centiseg = nullptr;
 	while (iterator != segments.end())
@@ -56,17 +57,6 @@ GLuint Centipede::update(GLfloat tpf)
 			iterator++;
 		}
 	}
-
 	return 0;
 }
-
-void Centipede::reDraw(Renderer* renderer)
-{
-	GLfloat* coords;
-
-	for (iterator = segments.begin(); iterator != segments.end(); ++iterator)
-	{
-		coords = (*iterator)->getCoords();
-		renderer->draw(coords[0], coords[1], coords[0] + CENTISEGMENT_WIDTH, coords[1] + CENTISEGMENT_HEIGHT, coords[2], coords[3], coords[4], coords[5]);
-	}
-}
+	*/

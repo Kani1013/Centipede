@@ -9,13 +9,16 @@ Display::Display(int width, int height, const std::string& title)
 		std::cerr << "GLFW failed to initialize!" << std::endl;
 	}
 
-	glfwWindowHint(GLFW_SAMPLES, 0); //AA None since we have big pixel grafic. this causes only weird effects on moving things.
+	glfwWindowHint(GLFW_SAMPLES, 0); //AA
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	GLFWmonitor *monitor = NULL;
+	if (FULLSCREEN != 0) monitor = glfwGetPrimaryMonitor();
 
-	window = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), NULL);	
+
+	window = glfwCreateWindow(width, height, title.c_str(), monitor, NULL);	
 	if (!window)
 	{
 		std::cerr << "Window failed to create!" << std::endl;

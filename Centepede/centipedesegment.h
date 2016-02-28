@@ -1,12 +1,12 @@
 #pragma once
 
 #include "GL\glew.h"
-#include "renderer.h"
-#include "mushroomGenerator.h"
-#include "bullet.h"
+#include "gameObject.h"
 #include "settings.h"
 
-class CentipedeSegment
+class CentipedeManager;
+
+class CentipedeSegment: public GameObject
 {
 public:
 	enum Type : GLuint {
@@ -21,42 +21,33 @@ public:
 		UP
 	};
 
-	CentipedeSegment(GLfloat* position, Type type, GLfloat width, GLfloat height, MushroomGenerator* mushrooms);
+	CentipedeSegment(Vec position, CentipedeSegment *previous, CentipedeManager *centipedeManager, Direction direction);
 	~CentipedeSegment();
 
-	Direction getDirection();
-	Direction getPrevDirection();
+	void update(GLfloat tpf);
+	void updateBody(GLfloat tpf);
 
-	GLuint update(GLfloat tpf, CentipedeSegment* prev);
-	GLfloat* getCoords();
-	void turnIntoHead();
-
-	GLuint* getField();
+	CentipedeSegment* getPrevious();
+	CentipedeSegment* getFollowing();
+	void setFollowing(CentipedeSegment *following);
 
 private:
 
-	Direction direction, prevDirection;
+	Direction direction, oldDirection;	//oldDirection is direction before direction change important for pathfinding
 	Type type;
-	GLfloat xPos, yPos, width, height, xTex1 = 0, yTex1 = 0, xTex2 = 0, yTex2 = 0;
 
-	MushroomGenerator* mushrooms;
+	void handleCollision(GameObject* collider);
 
+	void updateTexCoord();
+	//changes internal direction values
+	void changeDirection(Direction newDirection);
+	//checks which direction to go and performs position and direction adjustment
+	void updateDirection();
 
-	//Return 0 if movement was in same field. If entering new field it returns the movement distance remaining to move in new field which may be another direction
-	GLfloat moveRight(GLfloat movement);
-	GLfloat moveLeft(GLfloat movement);
-	GLfloat moveUp(GLfloat movement);
-	GLfloat moveDown(GLfloat movement);
+	//Returns opposite direction of give direction
+	Direction getOppositeDirection(Direction direction);
 
-	//return true if not hit by a shot, false when hit
-	GLboolean updateShots();
-
-	void changeDirection(Direction direction, GLfloat delta);
-
-	GLboolean collideX();
-	GLboolean collideY();
-	Direction checkY();
-
-	void updateTex();
+	CentipedeSegment *previous, *following;
+	CentipedeManager *centipedeManager;
 };
 

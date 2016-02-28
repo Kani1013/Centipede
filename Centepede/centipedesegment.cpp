@@ -1,363 +1,307 @@
 #include "centipedesegment.h"
+#include "centipedeManager.h"
 
-#include <iostream>
 
-CentipedeSegment::CentipedeSegment(GLfloat* position, Type type, GLfloat width, GLfloat height, MushroomGenerator* mushrooms)
+CentipedeSegment::CentipedeSegment(Vec position, CentipedeSegment *previous, CentipedeManager *centipedeManager, Direction direction)
 {
-	this->type = type;
-	this->xPos = position[0];
-	this->yPos = position[1];
-	this->width = width;
-	this->height = height;
-	this->mushrooms = mushrooms;
-	if (type == HEAD) {
-		prevDirection = RIGHT;
-	}
-	else {
-		prevDirection = DOWN;
-	}
-	direction = DOWN;
-}
+	Position.x1 = position.x;
+	Position.y1 = position.y;
+	Position.x2 = Position.x1 + CENTISEGMENT_WIDTH;
+	Position.y2 = Position.y1 + CENTISEGMENT_HEIGHT;
 
+	AABB = Position;
+
+	isStatic = GL_FALSE;
+	isAlive = GL_TRUE;
+	colliders.mushroom = GL_TRUE;
+	colliders.centipede = GL_TRUE;
+	colliders.player = GL_TRUE;
+	colliders.bullet = GL_TRUE;
+	ID = 2;
+
+	this->direction = DOWN;
+	oldDirection = getOppositeDirection(direction);
+	this->previous = previous;
+	this->centipedeManager = centipedeManager;
+
+	if (previous == nullptr) type = HEAD;
+	else type = BODY;
+
+	updateTexCoord();
+}
 
 CentipedeSegment::~CentipedeSegment()
 {
 }
 
-CentipedeSegment::Direction CentipedeSegment::getDirection()
+void CentipedeSegment::update(GLfloat tpf)
 {
-	return direction;
-}
+	if (previous != nullptr && previous->isAlive == GL_FALSE) type = HEAD;
 
-CentipedeSegment::Direction CentipedeSegment::getPrevDirection()
-{
-	return prevDirection;
-}
-
-GLuint CentipedeSegment::update(GLfloat tpf, CentipedeSegment* prev)
-{
-	GLfloat delta = 0;
-	if (type == HEAD) {
-		if (direction == LEFT)
-		{
-			delta = moveLeft(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if (collideX()) {
-						changeDirection(checkY(), delta);
-				}
-				else {
-					changeDirection(LEFT, delta);
-				}
-			}
-		}
-		else if (direction == RIGHT)
-		{
-			delta = moveRight(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if (collideX()) {
-					changeDirection(checkY(), delta);
-				}
-				else {
-					changeDirection(RIGHT, delta);
-				}
-			}
-		}
-		else if (direction == DOWN)
-		{
-			delta = moveDown(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if (prevDirection == LEFT) {
-					changeDirection(RIGHT, delta);
-				}
-				else if (prevDirection == RIGHT) {
-					changeDirection(LEFT, delta);
-				}
-			}
-		}
-		else if (direction == UP)
-		{
-			delta = moveUp(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if (prevDirection == LEFT) {
-					changeDirection(RIGHT, delta);
-				}
-				else if (prevDirection == RIGHT) {
-					changeDirection(LEFT, delta);
-				}
-			}
-		}
-	}
-	else {
-
-		if (direction == LEFT)
-		{
-			delta = moveLeft(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if ((GLint) prev->getCoords()[0] >= (GLint) xPos) {
-					changeDirection(checkY(), delta);
-				}
-				else {
-					changeDirection(LEFT, delta);
-				}
-			}
-		}
-		else if (direction == RIGHT)
-		{
-			delta = moveRight(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if ((GLint) prev->getCoords()[0] <= (GLint)xPos) {
-					changeDirection(checkY(), delta);
-				}
-				else {
-					changeDirection(RIGHT, delta);
-				}
-			}
-		}
-		else if (direction == DOWN)
-		{
-			delta = moveDown(tpf * CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if (prevDirection == LEFT) {
-					changeDirection(RIGHT, delta);
-				}
-				else if (prevDirection == RIGHT) {
-					changeDirection(LEFT, delta);
-				}
-				else {
-					changeDirection(prev->getPrevDirection(), delta);
-				}
-			}
-		}
-		else if (direction == UP)
-		{
-			delta = moveUp(tpf* CENTIPEDE_SPEED);
-			if (delta != 0) {
-				if (prevDirection == LEFT) {
-					changeDirection(RIGHT, delta);
-				}
-				else if (prevDirection == RIGHT) {
-					changeDirection(LEFT, delta);
-				}
-				else {
-					changeDirection(prev->getPrevDirection(), delta);
-				}
-			}
-		}
+	if (type != HEAD) {
+		updateBody(tpf);
+		return;
 	}
 
-	if (updateShots()) {
-		updateTex();
-		return 0;
-	}
-	else {
-		
-		return 1;
-	}
-
-}
-
-void CentipedeSegment::turnIntoHead()
-{
-	type = HEAD;
-}
-
-GLfloat* CentipedeSegment::getCoords()
-{
-	GLfloat* coords = new GLfloat[4];
-	coords[0] = xPos;
-	coords[1] = yPos;
-	coords[2] = xTex1;
-	coords[3] = yTex1;
-	coords[4] = xTex2;
-	coords[5] = yTex2;
-
-	return coords;
-}
-
-GLuint* CentipedeSegment::getField()
-{
-	GLuint* field = new GLuint[2];
-	field[0] = (GLuint)xPos;
-	field[1] = (GLuint)yPos;
-
-	//for mushroom creation only yet
-	if (direction == RIGHT && field[0] < 30) field[0] += 1;
-
-	return field;
-}
-
-GLfloat CentipedeSegment::moveRight(GLfloat movement)
-{
-	GLfloat newX = xPos + width + movement;
-	GLfloat currentX = xPos + width;
-
-	if ((GLint)currentX == (GLint)newX) {
-		xPos += movement;
-		return 0.0f;
-	}
-	else {
-		GLfloat canMove = ((GLint)newX) - currentX;
-		xPos += canMove;
-		return movement - canMove;
-	}
-}
-
-GLfloat CentipedeSegment::moveLeft(GLfloat movement)
-{
-	GLfloat newX = xPos - movement;
-	GLfloat currentX = xPos;
-
-	if (newX > 0.0f && (GLint)currentX == (GLint)newX) {
-		xPos -= movement;
-		return 0.0f;
-	}
-	else {
-		if (newX <= 0.0f) {
-			xPos = 0;
-			return (movement - currentX);
-		}
-		else {
-			GLfloat canMove = currentX - ((GLint)currentX);
-			xPos -= canMove;
-			return movement - canMove;
-		}
-	}
-}
-
-GLfloat CentipedeSegment::moveUp(GLfloat movement)
-{
-	GLfloat newY = yPos + movement;
-	GLfloat currentY = yPos;
-
-	if (newY > 0 && (GLint)currentY == (GLint)newY) {
-		yPos -= movement;
-		return 0.0f;
-	}
-	else {
-		GLfloat canMove =  currentY - ((GLint)currentY);
-		yPos -= canMove;
-		return movement - canMove;
-	}
-}
-
-GLfloat CentipedeSegment::moveDown(GLfloat movement)
-{
-	GLfloat newY = yPos + height + movement;
-	GLfloat currentY = yPos + height;
-
-	if ((GLint)currentY == (GLint)newY) {
-		yPos += movement;
-		return 0.0f;
-	}
-	else {
-		GLfloat canMove = ((GLint)newY) - currentY;
-		yPos += canMove;
-		return movement - canMove;
-	}
-}
-
-GLboolean CentipedeSegment::collideX()
-{
-	GLint newX = (GLint)(xPos - 1);
-	if (direction == RIGHT) {
-		newX = (GLint)(xPos + 1);
-	} 
-
-	if (newX > 30 || newX < 0) {
-		return true;
-	}
-
-	GLuint* field = new GLuint[2];
-	field[0] = newX;
-	field[1] = (GLuint)yPos;
-	
-//	return (mushrooms->hasMushroom(field) > 0);
-	return GL_FALSE;
-}
-
-GLboolean CentipedeSegment::collideY()
-{
-	return false;
-}
-
-CentipedeSegment::Direction CentipedeSegment::checkY()
-{
-	GLint newY = (GLint)(yPos + 1);
-
-	if (newY > 30) {
-		return UP;
-	}
-	return DOWN;
-}
-
-void CentipedeSegment::changeDirection(Direction direction, GLfloat delta) {
-	prevDirection = this->direction;
-	this->direction = direction;
-
-	if (direction == DOWN) {
-		yPos += delta;
-	}
-	else if (direction == LEFT) {
-		xPos -= delta;
-	}
-	else if (direction == RIGHT) {
-		xPos += delta;
-	}
-	else if (direction == UP) {
-		yPos -= delta;
-		std::cout << delta << "\n";
-	}
-}
-
-GLboolean CentipedeSegment::updateShots()
-{/*
-	GLuint index = shots->getBulletCount(), i = 0;
-	GLboolean hitMe = GL_FALSE;
-
-	while (hitMe == GL_FALSE && i < index)
+	GLfloat movement = CENTIPEDE_SPEED * tpf;
+	switch (direction)
 	{
-		GLfloat* bulletPosition = shots->getPosition(i);
+		case LEFT:
+			Position.x1 -= movement;
+			if (Position.x1 < 0) updateDirection();
+			break;
+		case RIGHT:
+			Position.x1 += movement;
+			if (Position.x1 > FIELDSIZE - CENTISEGMENT_WIDTH) updateDirection();
+			break;
+		case UP:
+			Position.y1 -= movement;
+			if (getCenter().y < FIELDSIZE - 1 && (GLuint)Position.y1 != (GLuint)AABB.y1) updateDirection();
+			break;
+		case DOWN:
+			Position.y1 += movement;
+			if (getCenter().y > 1 && (GLuint)Position.y1 + CENTISEGMENT_HEIGHT != (GLuint)AABB.y2) updateDirection();
+		default:
+			break;
+	}
 
-		if ((bulletPosition[0] + BULLET_WIDTH > xPos)
-			&& (bulletPosition[0]				< xPos + width)
-			&& (bulletPosition[1]				> yPos)
-			&& (bulletPosition[1] < yPos + height)
-			)
-		{
-			hitMe = GL_TRUE;
-			shots->destroyBullet(i);
+	Position.x2 = Position.x1 + CENTISEGMENT_WIDTH;
+	Position.y2 = Position.y1 + CENTISEGMENT_HEIGHT;
+
+	AABB = Position;
+}
+
+void CentipedeSegment::updateBody(GLfloat tpf) {
+	GLfloat movement = tpf * CENTIPEDE_SPEED;
+
+	switch (direction)
+	{
+	case LEFT:
+		Position.x1 -= movement;
+		if (direction == previous->direction) {
+			Position.y1 = previous->getPosition().y1;
 		}
 		else {
-			i++;
+			if (getCenter().x < previous->getCenter().x) {
+				Position.x1 = previous->getPosition().x1;
+				if (getCenter().y < previous->getCenter().y) {
+					changeDirection(DOWN);
+					Position.y1 = previous->getPosition().y1 - CENTISEGMENT_HEIGHT;
+				}
+				else {
+					changeDirection(UP);
+					Position.y1 = previous->getPosition().y2;
+				}
+			}
+		}
+		break;
+
+	case RIGHT:
+		Position.x1 += movement;
+		if (direction == previous->direction) {
+			Position.y1 = previous->getPosition().y1;
+		}
+		else {
+			if (getCenter().x > previous->getCenter().x) {
+				Position.x1 = previous->getPosition().x1;
+				if (getCenter().y < previous->getCenter().y) {
+					changeDirection(DOWN);
+					Position.y1 = previous->getPosition().y1 - CENTISEGMENT_HEIGHT;
+				}
+				else {
+					changeDirection(UP);
+					Position.y1 = previous->getPosition().y2 + SEGMENT_SPACING;
+				}
+			}
+		}
+		break;
+
+	case UP:
+		Position.y1 -= movement;
+		if (getCenter().y < previous->getCenter().y) {
+			Position.y1 = previous->getPosition().y1;
+			if (getCenter().x < previous->getCenter().x) {
+				changeDirection(RIGHT);
+				Position.x1 = previous->getPosition().x1 - CENTISEGMENT_WIDTH - SEGMENT_SPACING;
+			}
+			else {
+				changeDirection(LEFT);
+				Position.x1 = previous->getPosition().x2 + SEGMENT_SPACING;
+			}
+		}
+		break;
+
+	case DOWN:
+		Position.y1 += movement;
+		if (getCenter().y > previous->getCenter().y) {
+			Position.y1 = previous->getPosition().y1;
+			if (getCenter().x < previous->getCenter().x) {
+				changeDirection(RIGHT);
+				Position.x1 = previous->getPosition().x1 - CENTISEGMENT_WIDTH - SEGMENT_SPACING;
+			}
+			else {
+				changeDirection(LEFT);
+				Position.x1 = previous->getPosition().x2 + SEGMENT_SPACING;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	Position.x2 = Position.x1 + CENTISEGMENT_WIDTH;
+	Position.y2 = Position.y1 + CENTISEGMENT_HEIGHT;
+
+	AABB = Position;
+}
+
+void CentipedeSegment::changeDirection(Direction newDirection)
+{
+	oldDirection = direction;
+	direction = newDirection;
+	updateTexCoord();
+}
+
+void CentipedeSegment::updateDirection()
+{
+	Direction newDirection;
+	
+	switch (direction)
+	{
+	case LEFT:
+		if ((GLuint)Position.y1 < FIELDSIZE - 1) newDirection = DOWN;
+		else newDirection = UP;
+		break;
+
+	case RIGHT:
+		if ((GLuint)Position.y1 < FIELDSIZE - 1) newDirection = DOWN;
+		else newDirection = UP;
+		break;
+
+	case DOWN:
+		newDirection = getOppositeDirection(oldDirection);
+		Position.y1 = (GLfloat)((GLuint)getCenter().y); //Align to y axis
+		Position.y2 = Position.y1 + CENTISEGMENT_HEIGHT;
+		break;
+
+	case UP:
+		newDirection = getOppositeDirection(oldDirection);
+		Position.y1 = (GLfloat)((GLuint)getCenter().y); //Align to y axis
+		Position.y2 = Position.y1 + CENTISEGMENT_HEIGHT;
+		break;
+
+	default:
+		break;
+	}
+
+	changeDirection(newDirection);
+}
+
+void CentipedeSegment::handleCollision(GameObject* collider)
+{
+	if (collider->ID == 0) {
+		//check if mushroom is on same y axis due to collision when edges are aligned
+		if ((GLuint)collider->getCenter().y == (GLuint)this->getCenter().y) {
+			//check if mushroom is in moving direction-> fixes error when moving down along a mushrom which has a mushroom on the field under itself
+			if (direction == LEFT && collider->getCenter().x < this->getPosition().x1 ||
+				direction == RIGHT && collider->getCenter().x > this->getPosition().x2) {
+					//change direction
+					updateDirection();
+			}	
 		}
 	}
+	else if (collider->ID == 2) {
+		//If I am not a HEAD -> Do nothing
+		if (this->type != HEAD) return;
 
-	return !hitMe;*/
-	return GL_FALSE;
+		//check if segment is from this centipede -> no collision to check
+		GLboolean isFromMyself = GL_FALSE;
+		CentipedeSegment *follower =  following;
+		if (follower != nullptr) {
+			while (isFromMyself != GL_TRUE) {
+				if (collider == follower) isFromMyself = GL_TRUE;
+
+				follower = follower->getFollowing();
+				if (follower == nullptr) break;
+			}
+		}
+		if (isFromMyself == GL_TRUE) return;
+
+		//check if centipede is on same y axis due to collision when edges are aligned
+		if ((GLuint)collider->getCenter().y == (GLuint)this->getCenter().y) {
+			//check if Centipede is in moving direction-> fixes error that heads get stuck to each other
+			if (direction == LEFT && collider->getCenter().x < this->getCenter().x ||
+				direction == RIGHT && collider->getCenter().x > this->getCenter().x) {
+				//change direction
+				updateDirection();
+			}
+		}
+	}
+	if (collider->ID == 1) {
+		//die, spawn mushroom
+		if(isAlive) //prevents double mushroom spawning
+			centipedeManager->spawnMushroom(this->getCenter());
+		isAlive = false;
+	}
 }
 
-void CentipedeSegment::updateTex()
+void CentipedeSegment::updateTexCoord()
 {
 	if (type == HEAD) {
-		xTex1 = 0;
-		yTex1 = 0;
-		xTex2 = 7;
-		yTex2 = 8;
+		TexCoords.x1 = 0;
+		TexCoords.y1 = 0;
+		TexCoords.x2 = 7;
+		TexCoords.y2 = 8;
 	}
 	else {
-		xTex1 = 0;
-		yTex1 = 16;
-		xTex2 = 7;
-		yTex2 = 24;
+		TexCoords.x1 = 0;
+		TexCoords.y1 = 16;
+		TexCoords.x2 = 7;
+		TexCoords.y2 = 24;
 	}
-	
+
 	if (direction == RIGHT) {
+		//mirror on center y axis
 		GLfloat help;
-		help = xTex1;
-		xTex1 = xTex2;
-		xTex2 = help;
-		help = yTex1;
-		yTex1 = yTex2;
-		yTex2 = help;
+		help = TexCoords.x1;
+		TexCoords.x1 = TexCoords.x2;
+		TexCoords.x2 = help;
 	}
 }
+
+CentipedeSegment::Direction CentipedeSegment::getOppositeDirection(Direction direction)
+{
+	Direction result;
+	switch (direction)
+	{
+	case LEFT:
+		result = RIGHT;
+		break;
+	case RIGHT:
+		result = LEFT;
+		break;
+	case UP:
+		result = DOWN;
+		break;
+	case DOWN:
+		result = UP;
+		break;
+	default:
+		break;
+	}
+	return result;
+}
+
+
+CentipedeSegment* CentipedeSegment::getPrevious() {
+	return previous;
+};
+
+void CentipedeSegment::setFollowing(CentipedeSegment *following)
+{
+	this->following = following;
+}
+
+CentipedeSegment* CentipedeSegment::getFollowing() {
+	return following;
+};

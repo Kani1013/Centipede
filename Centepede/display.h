@@ -5,6 +5,7 @@
 
 #include <string>
 #include <iostream>
+#include "settings.h"
 
 class Display
 {

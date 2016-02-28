@@ -6,7 +6,7 @@ View::View(Model* model)
 
 	//Create window
 	display = new Display(SCREEN_WIDTH, SCREEN_HEIGHT, "Centipede | Projektarbeit von Nikolaj Kappler");
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	//glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	//Field size in pixels is width or height of display, whatever is smaller of both

@@ -2,22 +2,23 @@
 
 #include <time.h>
 #include <GL\glew.h>
-#include <list>
 #include "gameObject.h"
 #include "mushroom.h"
 #include "settings.h"
+
+class Model;
 
 
 class MushroomGenerator
 {
 public:
-	MushroomGenerator();
+	MushroomGenerator(Model *model);
 	~MushroomGenerator();
 
-	std::list<GameObject*> getMushrooms();
+	void generateMushrooms();
+	void generateEndScreen();
 
 private:
-
-	std::list<GameObject*> mushrooms;
+	Model *model;
 };
 
