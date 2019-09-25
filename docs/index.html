@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://nkappler.github.io/dist/sidebar/sidebar.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: "Ubuntu";
+            font-size: 28px;
+            margin: 0;
+            background-color: #222a22;
+            color: #00ff00;
+            font-family: monospace;
+        }
+
+        .bold {
+            text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-family: "Press Start 2P";
+            text-shadow: 4px 2px rgba(0, 0, 0, 0.25);
+            font-size: 70px;
+            text-align: center;
+            letter-spacing: 1px;
+            color: yellow;
+        }
+
+        .fork {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .content {
+            margin: auto;
+            width: 800px;
+            max-width: 100%;
+            padding: 20px;
+            text-align: justify;
+        }
+
+        .hr {
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 45px;
+            width: 100%;
+            border-bottom: 2px solid #999;
+        }
+
+        .hr:after {
+            display: block;
+            position: absolute;
+            content: '';
+            width: 20%;
+            border-bottom: 2px solid #666;
+            left: 40%;
+            top: 4px;
+        }
+
+        a img {
+            width: 149px;
+            height: 149px;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.27861;
+            }
+
+            5% {
+                opacity: 0.34769;
+            }
+
+            10% {
+                opacity: 0.23604;
+            }
+
+            15% {
+                opacity: 0.90626;
+            }
+
+            20% {
+                opacity: 0.18128;
+            }
+
+            25% {
+                opacity: 0.83891;
+            }
+
+            30% {
+                opacity: 0.65583;
+            }
+
+            35% {
+                opacity: 0.67807;
+            }
+
+            40% {
+                opacity: 0.26559;
+            }
+
+            45% {
+                opacity: 0.84693;
+            }
+
+            50% {
+                opacity: 0.96019;
+            }
+
+            55% {
+                opacity: 0.08594;
+            }
+
+            60% {
+                opacity: 0.20313;
+            }
+
+            65% {
+                opacity: 0.71988;
+            }
+
+            70% {
+                opacity: 0.53455;
+            }
+
+            75% {
+                opacity: 0.37288;
+            }
+
+            80% {
+                opacity: 0.71428;
+            }
+
+            85% {
+                opacity: 0.70419;
+            }
+
+            90% {
+                opacity: 0.7003;
+            }
+
+            95% {
+                opacity: 0.36108;
+            }
+
+            100% {
+                opacity: 0.24387;
+            }
+        }
+
+        @keyframes textShadow {
+            0% {
+                text-shadow: 0.4389924193300864px 0 1px rgba(0, 30, 255, 0.5), -0.4389924193300864px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            5% {
+                text-shadow: 2.7928974010788217px 0 1px rgba(0, 30, 255, 0.5), -2.7928974010788217px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            10% {
+                text-shadow: 0.02956275843481219px 0 1px rgba(0, 30, 255, 0.5), -0.02956275843481219px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            15% {
+                text-shadow: 0.40218538552878136px 0 1px rgba(0, 30, 255, 0.5), -0.40218538552878136px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            20% {
+                text-shadow: 3.4794037899852017px 0 1px rgba(0, 30, 255, 0.5), -3.4794037899852017px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            25% {
+                text-shadow: 1.6125630401149584px 0 1px rgba(0, 30, 255, 0.5), -1.6125630401149584px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            30% {
+                text-shadow: 0.7015590085143956px 0 1px rgba(0, 30, 255, 0.5), -0.7015590085143956px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            35% {
+                text-shadow: 3.896914047650351px 0 1px rgba(0, 30, 255, 0.5), -3.896914047650351px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            40% {
+                text-shadow: 3.870905614848819px 0 1px rgba(0, 30, 255, 0.5), -3.870905614848819px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            45% {
+                text-shadow: 2.231056963361899px 0 1px rgba(0, 30, 255, 0.5), -2.231056963361899px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            50% {
+                text-shadow: 0.08084290417898504px 0 1px rgba(0, 30, 255, 0.5), -0.08084290417898504px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            55% {
+                text-shadow: 2.3758461067427543px 0 1px rgba(0, 30, 255, 0.5), -2.3758461067427543px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            60% {
+                text-shadow: 2.202193051050636px 0 1px rgba(0, 30, 255, 0.5), -2.202193051050636px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            65% {
+                text-shadow: 2.8638780614874975px 0 1px rgba(0, 30, 255, 0.5), -2.8638780614874975px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            70% {
+                text-shadow: 0.48874025155497314px 0 1px rgba(0, 30, 255, 0.5), -0.48874025155497314px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            75% {
+                text-shadow: 1.8948491305757957px 0 1px rgba(0, 30, 255, 0.5), -1.8948491305757957px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            80% {
+                text-shadow: 0.0833037308038857px 0 1px rgba(0, 30, 255, 0.5), -0.0833037308038857px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            85% {
+                text-shadow: 0.09769827255241735px 0 1px rgba(0, 30, 255, 0.5), -0.09769827255241735px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            90% {
+                text-shadow: 3.443339761481782px 0 1px rgba(0, 30, 255, 0.5), -3.443339761481782px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            95% {
+                text-shadow: 2.1841838852799786px 0 1px rgba(0, 30, 255, 0.5), -2.1841838852799786px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+
+            100% {
+                text-shadow: 2.6208764473832513px 0 1px rgba(0, 30, 255, 0.5), -2.6208764473832513px 0 1px rgba(255, 0, 80, 0.3), 0 0 3px;
+            }
+        }
+
+        .crt::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(18, 16, 16, 0.1);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        .crt::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            box-shadow: rgba(230,255, 230, 0.05) 0 0 200px 0 inset;
+        }
+
+        .crt {
+            animation: textShadow 1.6s infinite;
+        }
+
+        .crt a {
+            color: #00ccff;
+            text-decoration: underline dashed;
+        }
+
+        .content img {
+            padding: 5px;
+            width: 100%;
+            height: auto;
+        }
+
+        .crt .img {
+            position: relative;
+            margin: 40x 20px;
+        }
+
+        .crt .img::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            box-shadow: #222a22 0 0 20px 20px inset;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 13vw;
+            }
+
+            a img {
+                width: 20vw;
+                height: 20vw;
+            }
+
+            body {
+                font-size: 18px;
+            }
+
+            .hint {
+                font-size: 14px;
+            }
+
+            .content>ul {
+                padding-inline-start: 20px;
+            }
+        }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="./ctxmenu.min.js"></script>
+    <script src="./demo.js"></script>
+</head>
+
+<body>
+    <a class="fork" href="https://github.com/nkappler/ctxmenu">
+        <img src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149"
+            class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+    </a>
+
+    <div class="content crt">
+        <div id="header">
+            <h1 style="margin: auto;">CENTIPEDE</h1>
+            <div class="hr"></div>
+        </div>
+        <div class="img"><img src="./centipede.png" />
+            <div></div>
+        </div>
+        <p>
+            This is a university project that I've created back in 2016.
+            It is a (very bad) clone of the <a href="https://en.wikipedia.org/wiki/Centipede_(video_game)"
+                target="blank">1980s Arcade Game</a>.
+        </p>
+        <p><br />
+            The game is <i>very</i> incomplete: There are neither points, nor highscores, the only enemy is the
+            centipede and you only have one live.
+            There are no levels and the mushrooms don't change colors like in the original, but at least there's an end
+            screen (made of mushrooms).
+        </p>
+        <p><br />
+            However, the game is fun to play for at least two minutes and since it is one of the more visual projects, I
+            wanted to include it on my website.<br>
+        </p>
+        <p><br />
+            Feel free to <a download
+                href="https://github.com/nkappler/Centipede/releases/download/v0.1/Release.zip">download and try it</a>
+        </p>
+        <div class="img"><img src="./gameover.png" />
+            <div></div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
