@@ -19,6 +19,7 @@
             background-color: #222a22;
             color: #00ff00;
             font-family: monospace;
+            padding-top: 56px
         }
 
         .bold {
@@ -35,9 +36,10 @@
         }
 
         .fork {
-            position: absolute;
+            position: fixed;
             top: 0;
             right: 0;
+            z-index: 1000;
         }
 
         .content {
@@ -270,7 +272,7 @@
             z-index: 2;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
-            box-shadow: rgba(230,255, 230, 0.05) 0 0 200px 0 inset;
+            box-shadow: rgba(230, 255, 230, 0.05) 0 0 200px 0 inset;
         }
 
         .crt {
